@@ -27,36 +27,41 @@ class BookingServiceImpl(booking_pb2_grpc.BookingServiceServicer):
         return booking_pb2.GetSeatMapResponse()
 
     def ReserveSeat(self, request, context):
-        """Reserves a seat for a show."""
+        """Reserves one or more seats for a show."""
         session = self._validate_session(request.session_token)
         if not session:
             context.set_code(401)
             context.set_details("Unauthorized: Invalid session token.")
             return booking_pb2.ReserveSeatResponse(success=False, message="Unauthorized")
 
-        print(f"🎫 Reserve seat '{request.seat_id}' for show '{request.show_id}' by user '{session['user_id']}'")
+        if not request.seat_ids:
+            context.set_code(400)
+            context.set_details("No seats provided.")
+            return booking_pb2.ReserveSeatResponse(success=False, message="You must specify at least one seat.")
+
+        print(f"🎫 Reserve seats '{', '.join(request.seat_ids)}' for show '{request.show_id}' by user '{session['user_id']}'")
         
         result = self.state_machine.apply_command("reserve_seat", {
             "user_id": session['user_id'],
             "show_id": request.show_id,
-            "seat_id": request.seat_id,
+            "seat_ids": list(request.seat_ids), # Pass the list of seats
             "amount_cents": request.amount_cents,
             "currency": request.currency,
             "description": request.description
         })
 
         if result and result.get("success"):
-            print(f"✅ Seat '{request.seat_id}' reserved successfully.")
+            print(f"✅ Seats '{', '.join(request.seat_ids)}' reserved successfully.")
             return booking_pb2.ReserveSeatResponse(
                 success=True,
                 booking_id=result["booking_id"],
                 payment_reference=result["payment_ref"],
-                message="Seat reserved and payment processed."
+                message="Seats reserved and payment processed."
             )
         else:
-            print(f"❌ Failed to reserve seat '{request.seat_id}': {result.get('message', 'Unknown error')}")
+            print(f"❌ Failed to reserve seats: {result.get('message', 'Unknown error')}")
             context.set_code(400)
-            context.set_details(result.get("message", "Failed to reserve seat."))
+            context.set_details(result.get("message", "Failed to reserve seats."))
             return booking_pb2.ReserveSeatResponse(success=False, message=result.get("message"))
 
     def CancelBooking(self, request, context):
@@ -95,3 +100,4 @@ class BookingServiceImpl(booking_pb2_grpc.BookingServiceServicer):
             ) for s in shows_data
         ]
         return booking_pb2.ListShowsResponse(shows=shows_proto)
+

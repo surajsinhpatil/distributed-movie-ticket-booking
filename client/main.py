@@ -17,8 +17,8 @@ def print_help():
       
       listshows             - List all available movie shows
       seatmap <show_id>     - View the seat map for a show
-      reserve <show_id> <seat_id> <amount_cents> [currency]
-                            - Reserve a seat (e.g., reserve show-1 A5 1500)
+      reserve <show_id> <total_amount_rupees> <seat_1> [seat_2] ...
+                            - Reserve one or more seats (e.g., reserve show-1 3000 A5 A6)
       cancel <booking_id>   - Cancel a reservation
       
       addshow <movie_title> - (Admin) Add a new show
@@ -72,12 +72,16 @@ def main(addr):
                 else:
                     print("Usage: seatmap <show_id>")
             elif command == "reserve":
-                if len(args) >= 3:
-                    amount = int(args[2])
-                    currency = args[3] if len(args) > 3 else "USD"
-                    client.reserve_seat(args[0], args[1], amount, currency)
+                if len(args) >= 3: # show_id, amount, at least one seat
+                    show_id = args[0]
+                    try:
+                        amount = int(args[1])
+                        seat_ids = args[2:]
+                        client.reserve_seat(show_id, seat_ids, amount, "USD") # Currency hardcoded for simplicity
+                    except ValueError:
+                        print("Error: Amount must be an integer.")
                 else:
-                    print("Usage: reserve <show_id> <seat_id> <amount_cents> [currency]")
+                    print("Usage: reserve <show_id> <total_amount_cents> <seat_1> [seat_2] ...")
             elif command == "cancel":
                 if args:
                     client.cancel_booking(args[0])
@@ -121,3 +125,4 @@ if __name__ == '__main__':
     parser.add_argument("--addr", default=os.getenv("BOOKING_ADDR", "localhost:50051"), help="Server address")
     args = parser.parse_args()
     main(args.addr)
+

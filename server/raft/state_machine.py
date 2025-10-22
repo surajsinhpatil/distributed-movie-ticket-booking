@@ -15,12 +15,12 @@ class StateMachine:
         # In-memory data store
         self.store = {
             "users": {
-                "user-alice": {"username": "alice", "password_hash": "secret", "is_admin": False},
+                "user-bob": {"username": "bob", "password_hash": "secret", "is_admin": False},
                 "user-admin": {"username": "admin", "password_hash": "password", "is_admin": True}
             },
             "sessions": {}, # session_token -> {user_id, expiry}
             "shows": {}, # show_id -> {movie_title, seats: {seat_id -> is_available}}
-            "bookings": {}, # booking_id -> {user_id, show_id, seat_id, payment_ref}
+            "bookings": {}, # booking_id -> {user_id, show_id, seat_ids: [...], payment_ref}
             "payments": {} # payment_ref -> {amount, currency, status}
         }
         # Add some initial data
@@ -65,29 +65,37 @@ class StateMachine:
             return True
         return False
         
-    def _command_reserve_seat(self, user_id, show_id, seat_id, amount_cents, currency, description):
+    def _command_reserve_seat(self, user_id, show_id, seat_ids, amount_cents, currency, description):
         show = self.store["shows"].get(show_id)
         if not show:
             return {"success": False, "message": "Show not found."}
         
-        if seat_id not in show["seats"]:
-            return {"success": False, "message": "Seat not found."}
+        if not seat_ids:
+            return {"success": False, "message": "No seats provided."}
 
-        if not show["seats"][seat_id]: # If seat is not available
-            return {"success": False, "message": "Seat already reserved."}
+        # --- Atomic Check ---
+        # First, check if all requested seats are available before reserving any.
+        for seat_id in seat_ids:
+            if seat_id not in show["seats"]:
+                return {"success": False, "message": f"Seat '{seat_id}' not found."}
+            if not show["seats"][seat_id]: # If seat is not available
+                return {"success": False, "message": f"Seat '{seat_id}' is already reserved."}
+        
+        # --- All seats are available, proceed with booking ---
 
         # Mock payment processing
         payment_ref = f"pay_{uuid.uuid4().hex[:8]}"
         self.store["payments"][payment_ref] = {"amount": amount_cents, "currency": currency, "status": "succeeded"}
 
-        # Reserve seat
-        show["seats"][seat_id] = False # Mark as unavailable
+        # Reserve all seats
+        for seat_id in seat_ids:
+            show["seats"][seat_id] = False # Mark as unavailable
         
         booking_id = f"book_{uuid.uuid4().hex[:8]}"
         self.store["bookings"][booking_id] = {
             "user_id": user_id,
             "show_id": show_id,
-            "seat_id": seat_id,
+            "seat_ids": seat_ids, # Store the list of seats
             "payment_ref": payment_ref
         }
 
@@ -101,10 +109,12 @@ class StateMachine:
         if booking["user_id"] != user_id and not self.is_admin(user_id):
             return {"success": False, "message": "Permission denied."}
             
-        # Make seat available again
+        # Make all seats in the booking available again
         show = self.store["shows"].get(booking["show_id"])
-        if show and booking["seat_id"] in show["seats"]:
-            show["seats"][booking["seat_id"]] = True
+        if show:
+            for seat_id in booking["seat_ids"]:
+                if seat_id in show["seats"]:
+                    show["seats"][seat_id] = True # Mark as available
         
         # Mock refund
         self._command_process_refund(booking["payment_ref"])
@@ -166,3 +176,4 @@ class StateMachine:
                     "available_seats": available_seats
                 })
             return show_list
+

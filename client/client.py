@@ -115,7 +115,7 @@ class BookingClient:
         except grpc.RpcError as e:
             self._handle_grpc_error(e)
 
-    def reserve_seat(self, show_id, seat_id, amount_cents, currency):
+    def reserve_seat(self, show_id, seat_ids, amount_cents, currency):
         if not self.session_token:
             print("Please login first.")
             return
@@ -123,10 +123,10 @@ class BookingClient:
             req = booking_pb2.ReserveSeatRequest(
                 session_token=self.session_token,
                 show_id=show_id,
-                seat_id=seat_id,
+                seat_ids=seat_ids, # Pass the list of seat IDs
                 amount_cents=amount_cents,
                 currency=currency,
-                description=f"Ticket for {show_id}"
+                description=f"Tickets for {show_id}"
             )
             res = self.booking_stub.ReserveSeat(req)
             if res.success:
@@ -217,3 +217,4 @@ class BookingClient:
             print(f"🤖 Assistant ({source}): {res.answer}")
         except grpc.RpcError as e:
             self._handle_grpc_error(e)
+

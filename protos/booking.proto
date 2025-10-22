@@ -34,8 +34,8 @@ message GetSeatMapResponse {
 message ReserveSeatRequest {
   string session_token = 1;
   string show_id = 2;
-  string seat_id = 3;
-  int64 amount_cents = 4;
+  repeated string seat_ids = 3; // Changed from single 'seat_id'
+  int64 amount_cents = 4;      // This should be the total amount for all seats
   string currency = 5;
   string description = 6;
 }
@@ -62,3 +62,4 @@ message ListShowsRequest {}
 message ListShowsResponse {
   repeated Show shows = 1;
 }
+

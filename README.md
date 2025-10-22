@@ -58,7 +58,7 @@ The client provides an interactive interface with these commands:
 
 ### 🎫 Booking Operations
 - `seatmap <show_id>` - View seat matrix with availability
-- `reserve <show_id> <seat_id> <amount_cents> [currency] [description]` - Reserve and pay for seat (one-step)
+- `reserve <show_id> <total_amount_cents> <seat_1> [seat_2]` ... - Reserve one or more seats (e.g., reserve show-1 3000 A1 A2)
 - `cancel <booking_id>` - Cancel a booking
 
 ### 👨‍💼 Admin Operations (admin/password)
@@ -100,7 +100,7 @@ ok=True booking_id=book_456 payment_ref=pay_789 message=ok
 
 # Ask chatbot
 > ask How do I cancel a booking?
-answer=To cancel a booking, provide your booking ID and we will release the seat. from_llm=False
+answer=To cancel a booking, provide your booking ID and we will release the seat.
 
 # Logout
 > logout
@@ -115,8 +115,8 @@ ok session=admin_xyz user=admin_admin
 
 # List all shows
 > listshows
-Show: show-1 - Avengers Endgame at 2024-12-25T19:00:00
-Show: show-2 - Spider-Man No Way Home at 2024-12-26T21:00:00
+Show: show-1 - Avengers Endgame 
+Show: show-2 - Spider-Man No Way Home 
 
 # Add a new show
 > addshow 'Avengers Endgame'
