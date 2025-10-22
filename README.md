@@ -58,7 +58,7 @@ The client provides an interactive interface with these commands:
 
 ### 🎫 Booking Operations
 - `seatmap <show_id>` - View seat matrix with availability
-- `reserve <show_id> <total_amount_cents> <seat_1> [seat_2]` ... - Reserve one or more seats (e.g., reserve show-1 3000 A1 A2)
+- `reserve <show_id> <total_amount_rupees> [seat_1] [seat_2]` ... - Reserve one or more seats (e.g., reserve show-1 3000 A1 A2)
 - `cancel <booking_id>` - Cancel a booking
 
 ### 👨‍💼 Admin Operations (admin/password)
@@ -79,8 +79,8 @@ The client provides an interactive interface with these commands:
 ### Customer Workflow
 ```bash
 # Login as customer
-> login alice secret
-ok session=abc123 user=alice
+> login bob secret
+ok session=abc123 user=bob
 
 # View seat matrix
 > seatmap show-1
@@ -95,7 +95,7 @@ Row D: D1:✓ D2:✓ D3:✓ D4:✓ D5:✓ D6:✓ D7:✓ D8:✓ D9:✓ D10:✓
 Row E: E1:✓ E2:✓ E3:✓ E4:✓ E5:✓ E6:✓ E7:✓ E8:✓ E9:✓ E10:✓
 
 # Reserve and pay for seat (one-step)
-> reserve show-1 A1 1500 INR Movie Ticket
+> reserve show-1 A1 1500 Movie Ticket
 ok=True booking_id=book_456 payment_ref=pay_789 message=ok
 
 # Ask chatbot
