@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package chatbot;
+
+// Service for the AI assistant
+service ChatbotService {
+  rpc AskQuestion(AskQuestionRequest) returns (AskQuestionResponse);
+}
+
+message AskQuestionRequest {
+  string session_token = 1;
+  string query = 2;
+}
+
+message AskQuestionResponse {
+  string answer = 1;
+  bool from_llm = 2;
+}

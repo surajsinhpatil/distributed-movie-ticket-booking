@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package admin;
+
+// Service for administrative tasks
+service AdminService {
+  rpc AddShow(AddShowRequest) returns (AddShowResponse);
+  rpc AddSeats(AddSeatsRequest) returns (AddSeatsResponse);
+  rpc ProcessRefund(ProcessRefundRequest) returns (ProcessRefundResponse);
+}
+
+message AddShowRequest {
+  string session_token = 1;
+  string movie_title = 2;
+}
+
+message AddShowResponse {
+  bool success = 1;
+  string show_id = 2;
+  string message = 3;
+}
+
+message AddSeatsRequest {
+  string session_token = 1;
+  string show_id = 2;
+  repeated string seat_ids = 3;
+}
+
+message AddSeatsResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message ProcessRefundRequest {
+    string session_token = 1;
+    string payment_reference = 2;
+}
+
+message ProcessRefundResponse {
+    bool success = 1;
+    string message = 2;
+}

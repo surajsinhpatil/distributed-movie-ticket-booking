@@ -1,0 +1,10 @@
+# gRPC and Protobuf
+grpcio
+grpcio-tools
+protobuf
+
+# OpenAI for Chatbot
+openai
+
+# Other utilities
+python-dotenv

@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package booking;
+
+// Service for movie ticket booking operations
+service BookingService {
+  rpc GetSeatMap(GetSeatMapRequest) returns (GetSeatMapResponse);
+  rpc ReserveSeat(ReserveSeatRequest) returns (ReserveSeatResponse);
+  rpc CancelBooking(CancelBookingRequest) returns (CancelBookingResponse);
+  rpc ListShows(ListShowsRequest) returns (ListShowsResponse);
+}
+
+message Show {
+  string id = 1;
+  string movie_title = 2;
+  int32 total_seats = 3;
+  int32 available_seats = 4;
+}
+
+message Seat {
+  string id = 1;
+  bool is_available = 2;
+}
+
+message GetSeatMapRequest {
+  string show_id = 1;
+}
+
+message GetSeatMapResponse {
+  string show_id = 1;
+  map<string, bool> seats = 2; // seat_id -> is_available
+}
+
+message ReserveSeatRequest {
+  string session_token = 1;
+  string show_id = 2;
+  string seat_id = 3;
+  int64 amount_cents = 4;
+  string currency = 5;
+  string description = 6;
+}
+
+message ReserveSeatResponse {
+  bool success = 1;
+  string booking_id = 2;
+  string payment_reference = 3;
+  string message = 4;
+}
+
+message CancelBookingRequest {
+  string session_token = 1;
+  string booking_id = 2;
+}
+
+message CancelBookingResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message ListShowsRequest {}
+
+message ListShowsResponse {
+  repeated Show shows = 1;
+}
