@@ -3,9 +3,9 @@
 import grpc
 import warnings
 
-import booking_pb2 as booking__pb2
+from protos import booking_pb2 as protos_dot_booking__pb2
 
-GRPC_GENERATED_VERSION = '1.75.1'
+GRPC_GENERATED_VERSION = '1.76.0'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in booking_pb2_grpc.py depends on'
+        + ' but the generated code in protos/booking_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -37,23 +37,23 @@ class BookingServiceStub(object):
         """
         self.GetSeatMap = channel.unary_unary(
                 '/booking.BookingService/GetSeatMap',
-                request_serializer=booking__pb2.GetSeatMapRequest.SerializeToString,
-                response_deserializer=booking__pb2.GetSeatMapResponse.FromString,
+                request_serializer=protos_dot_booking__pb2.GetSeatMapRequest.SerializeToString,
+                response_deserializer=protos_dot_booking__pb2.GetSeatMapResponse.FromString,
                 _registered_method=True)
         self.ReserveSeat = channel.unary_unary(
                 '/booking.BookingService/ReserveSeat',
-                request_serializer=booking__pb2.ReserveSeatRequest.SerializeToString,
-                response_deserializer=booking__pb2.ReserveSeatResponse.FromString,
+                request_serializer=protos_dot_booking__pb2.ReserveSeatRequest.SerializeToString,
+                response_deserializer=protos_dot_booking__pb2.ReserveSeatResponse.FromString,
                 _registered_method=True)
         self.CancelBooking = channel.unary_unary(
                 '/booking.BookingService/CancelBooking',
-                request_serializer=booking__pb2.CancelBookingRequest.SerializeToString,
-                response_deserializer=booking__pb2.CancelBookingResponse.FromString,
+                request_serializer=protos_dot_booking__pb2.CancelBookingRequest.SerializeToString,
+                response_deserializer=protos_dot_booking__pb2.CancelBookingResponse.FromString,
                 _registered_method=True)
         self.ListShows = channel.unary_unary(
                 '/booking.BookingService/ListShows',
-                request_serializer=booking__pb2.ListShowsRequest.SerializeToString,
-                response_deserializer=booking__pb2.ListShowsResponse.FromString,
+                request_serializer=protos_dot_booking__pb2.ListShowsRequest.SerializeToString,
+                response_deserializer=protos_dot_booking__pb2.ListShowsResponse.FromString,
                 _registered_method=True)
 
 
@@ -90,23 +90,23 @@ def add_BookingServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'GetSeatMap': grpc.unary_unary_rpc_method_handler(
                     servicer.GetSeatMap,
-                    request_deserializer=booking__pb2.GetSeatMapRequest.FromString,
-                    response_serializer=booking__pb2.GetSeatMapResponse.SerializeToString,
+                    request_deserializer=protos_dot_booking__pb2.GetSeatMapRequest.FromString,
+                    response_serializer=protos_dot_booking__pb2.GetSeatMapResponse.SerializeToString,
             ),
             'ReserveSeat': grpc.unary_unary_rpc_method_handler(
                     servicer.ReserveSeat,
-                    request_deserializer=booking__pb2.ReserveSeatRequest.FromString,
-                    response_serializer=booking__pb2.ReserveSeatResponse.SerializeToString,
+                    request_deserializer=protos_dot_booking__pb2.ReserveSeatRequest.FromString,
+                    response_serializer=protos_dot_booking__pb2.ReserveSeatResponse.SerializeToString,
             ),
             'CancelBooking': grpc.unary_unary_rpc_method_handler(
                     servicer.CancelBooking,
-                    request_deserializer=booking__pb2.CancelBookingRequest.FromString,
-                    response_serializer=booking__pb2.CancelBookingResponse.SerializeToString,
+                    request_deserializer=protos_dot_booking__pb2.CancelBookingRequest.FromString,
+                    response_serializer=protos_dot_booking__pb2.CancelBookingResponse.SerializeToString,
             ),
             'ListShows': grpc.unary_unary_rpc_method_handler(
                     servicer.ListShows,
-                    request_deserializer=booking__pb2.ListShowsRequest.FromString,
-                    response_serializer=booking__pb2.ListShowsResponse.SerializeToString,
+                    request_deserializer=protos_dot_booking__pb2.ListShowsRequest.FromString,
+                    response_serializer=protos_dot_booking__pb2.ListShowsResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -135,8 +135,8 @@ class BookingService(object):
             request,
             target,
             '/booking.BookingService/GetSeatMap',
-            booking__pb2.GetSeatMapRequest.SerializeToString,
-            booking__pb2.GetSeatMapResponse.FromString,
+            protos_dot_booking__pb2.GetSeatMapRequest.SerializeToString,
+            protos_dot_booking__pb2.GetSeatMapResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -162,8 +162,8 @@ class BookingService(object):
             request,
             target,
             '/booking.BookingService/ReserveSeat',
-            booking__pb2.ReserveSeatRequest.SerializeToString,
-            booking__pb2.ReserveSeatResponse.FromString,
+            protos_dot_booking__pb2.ReserveSeatRequest.SerializeToString,
+            protos_dot_booking__pb2.ReserveSeatResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -189,8 +189,8 @@ class BookingService(object):
             request,
             target,
             '/booking.BookingService/CancelBooking',
-            booking__pb2.CancelBookingRequest.SerializeToString,
-            booking__pb2.CancelBookingResponse.FromString,
+            protos_dot_booking__pb2.CancelBookingRequest.SerializeToString,
+            protos_dot_booking__pb2.CancelBookingResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -216,8 +216,8 @@ class BookingService(object):
             request,
             target,
             '/booking.BookingService/ListShows',
-            booking__pb2.ListShowsRequest.SerializeToString,
-            booking__pb2.ListShowsResponse.FromString,
+            protos_dot_booking__pb2.ListShowsRequest.SerializeToString,
+            protos_dot_booking__pb2.ListShowsResponse.FromString,
             options,
             channel_credentials,
             insecure,

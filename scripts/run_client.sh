@@ -2,11 +2,10 @@
 
 # Activate virtual environment if it exists
 if [ -d ".venv" ]; then
-  source .venv/bin/activate
+  source .venv/Scripts/activate
 fi
 
-# Add the project root to the PYTHONPATH to ensure modules are found
-export PYTHONPATH=$PYTHONPATH:.
+echo "Starting client..."
 
 # Run the client from the project root
 python client/main.py "$@"

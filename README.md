@@ -41,6 +41,32 @@ chmod +x scripts/*.sh
 ./scripts/run_server.sh --host 0.0.0.0 --port 50051
 ```
 
+**Multiple nodes:**
+```bash
+./scripts/run_server.sh --port 50051 --node-id node-1 --peers node-2=localhost:50052,node-3=localhost:50053
+
+**Terminal 2 (Node 2):**
+This node listens on 50052 and knows about peers at 50051 and 50053.
+```bash
+./scripts/run_server.sh --port 50052 --node-id node-2 --peers node-1=localhost:50051,node-3=localhost:50053
+
+**Terminal 3 (Node 3):**
+This node listens on 50053 and knows about peers at 50051 and 50052.
+```bash
+./scripts/run_server.sh --port 50053 --node-id node-3 --peers node-1=localhost:50051,node-2=localhost:50052
+
+### 3. Identifying the Leader and Followers
+
+The easiest way to know which node is the leader is to look at the logs in each terminal window.
+
+* **Leader:** You will see logs like `[Raft] Became LEADER for term X`. It will also be the node sending periodic heartbeats (`Sending heartbeat to...`).
+* **Follower:** You will see logs indicating it is receiving heartbeats or entries, or that it has voted for another node.
+
+You can also test this by connecting your client to different ports.
+* If you connect to the **leader** (e.g., `./scripts/run_client.sh --addr localhost:50051`), your commands will succeed immediately.
+* If you connect to a **follower**, the standard Raft behavior (which might need to be explicitly implemented depending on the depth of your current code) is to either forward the request to the leader or reject it, telling the client who the leader is. In this simple implementation, it might just process it if it's a read-only request, or fail if it's a write request that needs consensus.
+```
+
 **Start the interactive client:**
 ```bash
 ./scripts/run_client.sh --addr localhost:50051

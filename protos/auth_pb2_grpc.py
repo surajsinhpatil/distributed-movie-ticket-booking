@@ -3,9 +3,9 @@
 import grpc
 import warnings
 
-import auth_pb2 as auth__pb2
+from protos import auth_pb2 as protos_dot_auth__pb2
 
-GRPC_GENERATED_VERSION = '1.75.1'
+GRPC_GENERATED_VERSION = '1.76.0'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in auth_pb2_grpc.py depends on'
+        + ' but the generated code in protos/auth_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -37,18 +37,18 @@ class AuthServiceStub(object):
         """
         self.Login = channel.unary_unary(
                 '/auth.AuthService/Login',
-                request_serializer=auth__pb2.LoginRequest.SerializeToString,
-                response_deserializer=auth__pb2.LoginResponse.FromString,
+                request_serializer=protos_dot_auth__pb2.LoginRequest.SerializeToString,
+                response_deserializer=protos_dot_auth__pb2.LoginResponse.FromString,
                 _registered_method=True)
         self.Logout = channel.unary_unary(
                 '/auth.AuthService/Logout',
-                request_serializer=auth__pb2.LogoutRequest.SerializeToString,
-                response_deserializer=auth__pb2.LogoutResponse.FromString,
+                request_serializer=protos_dot_auth__pb2.LogoutRequest.SerializeToString,
+                response_deserializer=protos_dot_auth__pb2.LogoutResponse.FromString,
                 _registered_method=True)
         self.ValidateSession = channel.unary_unary(
                 '/auth.AuthService/ValidateSession',
-                request_serializer=auth__pb2.ValidateSessionRequest.SerializeToString,
-                response_deserializer=auth__pb2.ValidateSessionResponse.FromString,
+                request_serializer=protos_dot_auth__pb2.ValidateSessionRequest.SerializeToString,
+                response_deserializer=protos_dot_auth__pb2.ValidateSessionResponse.FromString,
                 _registered_method=True)
 
 
@@ -79,18 +79,18 @@ def add_AuthServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'Login': grpc.unary_unary_rpc_method_handler(
                     servicer.Login,
-                    request_deserializer=auth__pb2.LoginRequest.FromString,
-                    response_serializer=auth__pb2.LoginResponse.SerializeToString,
+                    request_deserializer=protos_dot_auth__pb2.LoginRequest.FromString,
+                    response_serializer=protos_dot_auth__pb2.LoginResponse.SerializeToString,
             ),
             'Logout': grpc.unary_unary_rpc_method_handler(
                     servicer.Logout,
-                    request_deserializer=auth__pb2.LogoutRequest.FromString,
-                    response_serializer=auth__pb2.LogoutResponse.SerializeToString,
+                    request_deserializer=protos_dot_auth__pb2.LogoutRequest.FromString,
+                    response_serializer=protos_dot_auth__pb2.LogoutResponse.SerializeToString,
             ),
             'ValidateSession': grpc.unary_unary_rpc_method_handler(
                     servicer.ValidateSession,
-                    request_deserializer=auth__pb2.ValidateSessionRequest.FromString,
-                    response_serializer=auth__pb2.ValidateSessionResponse.SerializeToString,
+                    request_deserializer=protos_dot_auth__pb2.ValidateSessionRequest.FromString,
+                    response_serializer=protos_dot_auth__pb2.ValidateSessionResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -119,8 +119,8 @@ class AuthService(object):
             request,
             target,
             '/auth.AuthService/Login',
-            auth__pb2.LoginRequest.SerializeToString,
-            auth__pb2.LoginResponse.FromString,
+            protos_dot_auth__pb2.LoginRequest.SerializeToString,
+            protos_dot_auth__pb2.LoginResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -146,8 +146,8 @@ class AuthService(object):
             request,
             target,
             '/auth.AuthService/Logout',
-            auth__pb2.LogoutRequest.SerializeToString,
-            auth__pb2.LogoutResponse.FromString,
+            protos_dot_auth__pb2.LogoutRequest.SerializeToString,
+            protos_dot_auth__pb2.LogoutResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -173,8 +173,8 @@ class AuthService(object):
             request,
             target,
             '/auth.AuthService/ValidateSession',
-            auth__pb2.ValidateSessionRequest.SerializeToString,
-            auth__pb2.ValidateSessionResponse.FromString,
+            protos_dot_auth__pb2.ValidateSessionRequest.SerializeToString,
+            protos_dot_auth__pb2.ValidateSessionResponse.FromString,
             options,
             channel_credentials,
             insecure,

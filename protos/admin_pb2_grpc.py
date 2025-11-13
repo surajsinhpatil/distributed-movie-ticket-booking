@@ -3,9 +3,9 @@
 import grpc
 import warnings
 
-import admin_pb2 as admin__pb2
+from protos import admin_pb2 as protos_dot_admin__pb2
 
-GRPC_GENERATED_VERSION = '1.75.1'
+GRPC_GENERATED_VERSION = '1.76.0'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in admin_pb2_grpc.py depends on'
+        + ' but the generated code in protos/admin_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -37,18 +37,18 @@ class AdminServiceStub(object):
         """
         self.AddShow = channel.unary_unary(
                 '/admin.AdminService/AddShow',
-                request_serializer=admin__pb2.AddShowRequest.SerializeToString,
-                response_deserializer=admin__pb2.AddShowResponse.FromString,
+                request_serializer=protos_dot_admin__pb2.AddShowRequest.SerializeToString,
+                response_deserializer=protos_dot_admin__pb2.AddShowResponse.FromString,
                 _registered_method=True)
         self.AddSeats = channel.unary_unary(
                 '/admin.AdminService/AddSeats',
-                request_serializer=admin__pb2.AddSeatsRequest.SerializeToString,
-                response_deserializer=admin__pb2.AddSeatsResponse.FromString,
+                request_serializer=protos_dot_admin__pb2.AddSeatsRequest.SerializeToString,
+                response_deserializer=protos_dot_admin__pb2.AddSeatsResponse.FromString,
                 _registered_method=True)
         self.ProcessRefund = channel.unary_unary(
                 '/admin.AdminService/ProcessRefund',
-                request_serializer=admin__pb2.ProcessRefundRequest.SerializeToString,
-                response_deserializer=admin__pb2.ProcessRefundResponse.FromString,
+                request_serializer=protos_dot_admin__pb2.ProcessRefundRequest.SerializeToString,
+                response_deserializer=protos_dot_admin__pb2.ProcessRefundResponse.FromString,
                 _registered_method=True)
 
 
@@ -79,18 +79,18 @@ def add_AdminServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'AddShow': grpc.unary_unary_rpc_method_handler(
                     servicer.AddShow,
-                    request_deserializer=admin__pb2.AddShowRequest.FromString,
-                    response_serializer=admin__pb2.AddShowResponse.SerializeToString,
+                    request_deserializer=protos_dot_admin__pb2.AddShowRequest.FromString,
+                    response_serializer=protos_dot_admin__pb2.AddShowResponse.SerializeToString,
             ),
             'AddSeats': grpc.unary_unary_rpc_method_handler(
                     servicer.AddSeats,
-                    request_deserializer=admin__pb2.AddSeatsRequest.FromString,
-                    response_serializer=admin__pb2.AddSeatsResponse.SerializeToString,
+                    request_deserializer=protos_dot_admin__pb2.AddSeatsRequest.FromString,
+                    response_serializer=protos_dot_admin__pb2.AddSeatsResponse.SerializeToString,
             ),
             'ProcessRefund': grpc.unary_unary_rpc_method_handler(
                     servicer.ProcessRefund,
-                    request_deserializer=admin__pb2.ProcessRefundRequest.FromString,
-                    response_serializer=admin__pb2.ProcessRefundResponse.SerializeToString,
+                    request_deserializer=protos_dot_admin__pb2.ProcessRefundRequest.FromString,
+                    response_serializer=protos_dot_admin__pb2.ProcessRefundResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -119,8 +119,8 @@ class AdminService(object):
             request,
             target,
             '/admin.AdminService/AddShow',
-            admin__pb2.AddShowRequest.SerializeToString,
-            admin__pb2.AddShowResponse.FromString,
+            protos_dot_admin__pb2.AddShowRequest.SerializeToString,
+            protos_dot_admin__pb2.AddShowResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -146,8 +146,8 @@ class AdminService(object):
             request,
             target,
             '/admin.AdminService/AddSeats',
-            admin__pb2.AddSeatsRequest.SerializeToString,
-            admin__pb2.AddSeatsResponse.FromString,
+            protos_dot_admin__pb2.AddSeatsRequest.SerializeToString,
+            protos_dot_admin__pb2.AddSeatsResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -173,8 +173,8 @@ class AdminService(object):
             request,
             target,
             '/admin.AdminService/ProcessRefund',
-            admin__pb2.ProcessRefundRequest.SerializeToString,
-            admin__pb2.ProcessRefundResponse.FromString,
+            protos_dot_admin__pb2.ProcessRefundRequest.SerializeToString,
+            protos_dot_admin__pb2.ProcessRefundResponse.FromString,
             options,
             channel_credentials,
             insecure,

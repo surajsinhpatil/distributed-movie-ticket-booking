@@ -5,7 +5,9 @@ import time
 from datetime import datetime, timedelta
 
 # Add protos to path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'protos')))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
 
 import protos.auth_pb2 as auth_pb2
 import protos.auth_pb2_grpc as auth_pb2_grpc

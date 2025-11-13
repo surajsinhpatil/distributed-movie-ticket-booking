@@ -1,24 +1,17 @@
 #!/bin/bash
+echo "Compiling protocol buffers..."
 
-# Directory where the .proto files are located
-PROTO_DIR=./protos
-# Directory for the Python output
-OUTPUT_DIR=./protos
+# This is the key change.
+# We run protoc from the root directory (I=.) and output to the root directory (python_out=.).
+# This makes protoc aware of the 'protos' package structure and
+# generates correct relative imports (e.g., "from . import auth_pb2")
+# inside the generated _grpc.py files.
+python -m grpc_tools.protoc -I=. --python_out=. --grpc_python_out=. \
+    protos/admin.proto \
+    protos/auth.proto \
+    protos/booking.proto \
+    protos/chatbot.proto \
+    protos/raft.proto
 
-# Create the output directory if it doesn't exist
-mkdir -p ${OUTPUT_DIR}
 
-# Find all .proto files and compile them
-find ${PROTO_DIR} -name "*.proto" | while read proto_file; do
-  echo "Compiling ${proto_file}..."
-  python -m grpc_tools.protoc \
-    --proto_path=${PROTO_DIR} \
-    --python_out=${OUTPUT_DIR} \
-    --grpc_python_out=${OUTPUT_DIR} \
-    "${proto_file}"
-done
-
-# Create __init__.py files to make the output directories Python packages
-touch ${OUTPUT_DIR}/__init__.py
-
-echo "✅ Protobuf compilation finished."
+echo "Done."
