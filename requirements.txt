@@ -3,8 +3,9 @@ grpcio
 grpcio-tools
 protobuf
 
-# OpenAI for Chatbot
+# Chatbot (optional LLM support)
 openai
-
-# Other utilities
 python-dotenv
+
+# Testing
+pytest

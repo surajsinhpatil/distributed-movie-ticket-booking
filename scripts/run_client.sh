@@ -2,7 +2,7 @@
 
 # Activate virtual environment if it exists
 if [ -d ".venv" ]; then
-  source .venv/Scripts/activate
+  source .venv/bin/activate
 fi
 
 echo "Starting client..."

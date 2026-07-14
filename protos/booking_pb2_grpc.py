@@ -5,7 +5,7 @@ import warnings
 
 from protos import booking_pb2 as protos_dot_booking__pb2
 
-GRPC_GENERATED_VERSION = '1.76.0'
+GRPC_GENERATED_VERSION = '1.82.1'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -25,7 +25,7 @@ if _version_not_supported:
     )
 
 
-class BookingServiceStub(object):
+class BookingServiceStub:
     """Service for movie ticket booking operations
     """
 
@@ -57,7 +57,7 @@ class BookingServiceStub(object):
                 _registered_method=True)
 
 
-class BookingServiceServicer(object):
+class BookingServiceServicer:
     """Service for movie ticket booking operations
     """
 
@@ -116,7 +116,7 @@ def add_BookingServiceServicer_to_server(servicer, server):
 
 
  # This class is part of an EXPERIMENTAL API.
-class BookingService(object):
+class BookingService:
     """Service for movie ticket booking operations
     """
 

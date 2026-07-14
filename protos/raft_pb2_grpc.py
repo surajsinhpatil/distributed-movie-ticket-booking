@@ -5,7 +5,7 @@ import warnings
 
 from protos import raft_pb2 as protos_dot_raft__pb2
 
-GRPC_GENERATED_VERSION = '1.76.0'
+GRPC_GENERATED_VERSION = '1.82.1'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -25,7 +25,7 @@ if _version_not_supported:
     )
 
 
-class RaftServiceStub(object):
+class RaftServiceStub:
     """Service for Raft consensus protocol
     """
 
@@ -47,7 +47,7 @@ class RaftServiceStub(object):
                 _registered_method=True)
 
 
-class RaftServiceServicer(object):
+class RaftServiceServicer:
     """Service for Raft consensus protocol
     """
 
@@ -84,7 +84,7 @@ def add_RaftServiceServicer_to_server(servicer, server):
 
 
  # This class is part of an EXPERIMENTAL API.
-class RaftService(object):
+class RaftService:
     """Service for Raft consensus protocol
     """
 
