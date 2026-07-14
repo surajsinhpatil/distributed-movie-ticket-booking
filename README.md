@@ -1,5 +1,7 @@
 # Distributed Movie Ticket Booking System
 
+![tests](https://github.com/surajsinhpatil/distributed-movie-ticket-booking/actions/workflows/tests.yml/badge.svg)
+
 A distributed movie-ticket booking system built with **gRPC** and **Protocol
 Buffers**, coordinated by a minimal **Raft** consensus layer for leader
 election and fault tolerance. It demonstrates concurrent seat reservation
@@ -11,6 +13,22 @@ refunds, and an optional LLM-backed support chatbot with a rule-based fallback.
 The server hosts five gRPC services backed by a single in-memory **replicated
 state machine**. All state changes flow through the state machine as ordered
 commands, so every node applies the same operations in the same order.
+
+```mermaid
+flowchart TD
+    Client["CLI Client"] -->|gRPC| Auth["AuthService"]
+    Client -->|gRPC| Booking["BookingService"]
+    Client -->|gRPC| Admin["AdminService"]
+    Client -->|gRPC| Chatbot["ChatbotService"]
+
+    Auth --> SM[("Replicated State Machine")]
+    Booking --> SM
+    Admin --> SM
+    Chatbot --> SM
+
+    SM --- Raft["RaftNode<br/>leader election + heartbeats"]
+    Raft <-->|Raft RPCs| Peers["Peer nodes"]
+```
 
 | Service          | Responsibility                                             |
 |------------------|------------------------------------------------------------|
